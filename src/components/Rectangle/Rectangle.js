@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
+import { string } from "prop-types";
 
-class Circle extends Component {
+class Rectangle extends Component {
+	static propTypes = {
+		text: string
+	}
 
 	render() {
+		const { text } = this.props;
 
 		return (
-			<div className="App">
-
-			</div>
+			<button>{ text }</button>
 		);
 	}
 }
 
-export default Circle;
+export default Rectangle;
