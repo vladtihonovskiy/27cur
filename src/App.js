@@ -1,59 +1,77 @@
 import React, { Component } from 'react';
 
-import Counter from "./components/Counter/Counter";
-import Display from "./components/Display/Display";
-import NumberInput from "./components/NumberInput/NumberInput";
-
-import TodoList from "./components/TodoList/TodoList";
+import Text from "./components/Text/Text";
+import Input from "./components/Input/Input";
 
 import './App.css';
 
 class App extends Component {
 	state = {
-		number: 15,
-		list: []
+		loader: true,
+		text: "Привет",
+		textVisibility: true
 	}
 
-	onChangeNumberValue = (stirng) => {
-		if(stirng === "+") {
+	componentDidMount() {
+		console.log("App Did mount");
+		setTimeout(()=> {
 			this.setState({
-				number: this.state.number + 1
-			})
-		} else {
-			this.setState({
-				number: this.state.number - 1
-			})
-		}
+				loader: false
+			});
+		}, 3000);
 	}
 
-	onInputChange = (value) => {
+	componentDidUpdate(){
+		console.log("App update");
+	}
+
+	onButtonClick = () => {
 		this.setState({
-			number: +(value)
+			text: "Пока",
+			textVisibility: true
 		})
 	}
 
-	addElementToList = (value) => {
+	onDeleteButtonClick = () => {
 		this.setState({
-			list: [...this.state.list, value]
+			testVisibility: false
 		});
 	}
 
+	// renderText() {
+	// 	const { loader, text, textVisibility } = this.state;
+	//
+	// 	if (textVisibility) {
+	// 		return (
+	// 			<Text text={text}/>
+	// 		)
+	// 	}
+	// }
+
 	render() {
-		const { number, list } = this.state;
+		const { loader, text, textVisibility } = this.state;
 
-		return (
-		  <div className="App">
-			  <Display number={number} />
-			  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>
-			  <div>
-					<p>фывфывфыв</p>
-					<Counter onChangeNumberValue={this.onChangeNumberValue} />
-					<NumberInput number={number} onInputChange={this.onInputChange} />
-			  </div>
+			return (
+				<div>
+					{ loader ?
+						<div className="App">
+							<h1>ЗАГРУЗКА</h1>
+						</div>
+						:
+						<div className="App">
+							<h1>Загрузился</h1>
 
-			  <TodoList addElementToList={this.addElementToList} list={list} />
-		  </div>
-		);
+							<Input />
+
+							<button onClick={this.onButtonClick}>Добавить значение</button>
+							<button onClick={this.onDeleteButtonClick}>Удалить текск</button>
+							{/*{ this.renderText() }*/}
+
+							{ textVisibility && <Text text={text} /> }
+						</div>
+					}
+				</div>
+			);
 	}
 }
 
